@@ -11,6 +11,7 @@
   export let validacion = false;
   export let estaEditando;
   export let modificarUsuario;
+  export let confirmaEdit;
 
   export let agregarUsuario;
   export let verformularionuevo;
@@ -23,7 +24,7 @@
     validacion = comprueba.validar(namefirst, namelast, useremail, userpicture)
     if (validacion) {
         mensaje.innerHTML=" Datos validos     "
-        if (estaEditando){
+        if (estaEditando || confirmaEdit){
           modificarUsuario({namefirst, namelast, useremail, userpicture}) 
         } else {
           agregarUsuario({namefirst, namelast, useremail, userpicture}) 
@@ -40,6 +41,19 @@
   <form>
   <div class="row">
     <div class="col-sm-11  col-md-9">
+      {#if confirmaEdit}
+         <!-- aqui va modal -->
+        <h2>¿Seguro quiere editar?</h2>
+        <div id="mensaje"></div>
+      <div class="botones-ficha">
+        <button class="btn" 
+          on:click|preventDefault={previo}>   
+          Confirmar
+        </button>
+        <button class="btn" on:click|preventDefault={() => verformularionuevo(false)}>Cancelar</button>
+      </div>
+      {/if}
+
       <div class="usuario-data">
         <label for="txt_firstname">Nombre</label>
         <input id="txt_firstname" type="text" bind:value={namefirst} />
@@ -59,6 +73,7 @@
         <input id="txt_email" 
           type="text" bind:value={useremail}/>
       </div>
+      {#if !confirmaEdit}
       <div id="mensaje"></div>
       <div class="botones-ficha">
         <button class="btn" 
@@ -67,6 +82,8 @@
         </button>
         <button class="btn" on:click|preventDefault={() => verformularionuevo(false)}>Cancelar</button>
       </div>
+      {/if}
+
     </div>
     </div>
   </form>
