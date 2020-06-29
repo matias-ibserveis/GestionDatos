@@ -1,3 +1,5 @@
+<svelte:options immutable={true} />
+
 <script>
   import {getContext} from 'svelte'
   import {afterUpdate} from 'svelte';
@@ -44,7 +46,7 @@
   <elemDestello bind:this={varDestello}>
   <div class="col-sm-8  col-md-9">
     <div class="usuario-data">
-      <h3>{usuario.name.first}</h3>
+      <h3 contenteditable="true">{usuario.name.first}</h3>
       <h4>{usuario.name.last}</h4>
     </div>
   </div>
