@@ -7,12 +7,14 @@
   import Navbar from './components/Navbar.svelte'
   import ListadoUsuarios from './components/ListaUsuarios.svelte'
   import FormuNuevoUsuario from './components/FichaNueva.svelte'
+  
   // datos
   import usersData from "./others/list"
   
   // variables
   let lista_usuarios = [...usersData]
   let estaNuevo = false
+  let confirmaEdit = false
   
 
   //variables para editar usuario
@@ -35,14 +37,18 @@
     //crea nuevo array con todo los id que NO son el que elimina
   }
 
-  function setModificarUsuario(id){
+  function setModificarUsuario(id, editname1){
+    editname1 ? confirmaEdit = true:false
     let modifusuario = lista_usuarios.find(item => item._id === id )
+  
     verformularionuevo(true)
     set_id= modifusuario._id
-    setnamefirst = modifusuario.name.first
+    editname1 ? setnamefirst = editname1 : setnamefirst = modifusuario.name.first
+    //alert(setnamefirst)
     setnamelast = modifusuario.name.last
     setuseremail = modifusuario.email
     setuserpicture = modifusuario.picture.medium
+
   }
 
   function modificarUsuario({namefirst, namelast, useremail, userpicture}){
@@ -83,6 +89,7 @@
     ver ? estaNuevo = true : asignarVacios()
   }
 
+   
   function asignarVacios(){
       estaNuevo = false
       set_id= null;
@@ -110,9 +117,11 @@
         userpicture = {setuserpicture}
         {estaEditando}
         {modificarUsuario}
+        {confirmaEdit}
       />
    {/if}
-   <ListadoUsuarios lista_usuarios={lista_usuarios}  />
+
+     <ListadoUsuarios lista_usuarios={lista_usuarios}  />
   </div>
 
 </div>
