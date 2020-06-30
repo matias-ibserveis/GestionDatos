@@ -1,3 +1,9 @@
+
+<!-- Editable
+// https://stackoverflow.com/questions/59624611/how-do-i-make-a-div-contenteditable-on-doubleclick-using-svelte
+// https://svelte.dev/tutorial/contenteditable-bindings
+-->
+
 <script>
   import {getContext} from 'svelte'
   import {afterUpdate} from 'svelte';
@@ -18,13 +24,24 @@
     flash(varDestello);
   });
 
-  let vermasdatos = false;
+  let vermasdatos = false
   let masomenos = "+"
+
+  let editname1 = usuario.name.first
 
   function verMas() {
     vermasdatos = !vermasdatos;
     masomenos == "+" ? masomenos = "-" : masomenos = "+"
   }
+
+function pulsadaTecla(event){
+    editname1 = document.getElementById("edit_divname").textContent;
+    //alert (editname1)
+    let key = event.key
+    let keyCode = event.keyCode
+    keyCode == 13 ? modificaraqui(usuario._id, editname1) : false
+}
+
 </script>
 
 <div class="card fluid">
@@ -41,15 +58,18 @@
       </div>
   </div>
 
-  <elemDestello bind:this={varDestello}>
+  <!--  -->
   <div class="col-sm-8  col-md-9">
-    <div class="usuario-data">
+  <elemDestello bind:this={varDestello}>
+    <div id="edit_divname" contenteditable="true" on:keydown={pulsadaTecla}>
       <h3>{usuario.name.first}</h3>
-      <h4>{usuario.name.last}</h4>
     </div>
+     <h4>{usuario.name.last}</h4>
+     </elemDestello>
   </div>
-  </elemDestello>
-    </div>  <!-- fin row -->
+  <!-- </elemDestello> -->
+  
+  </div>  <!-- fin row -->
 
    <div class="row">
    <div class="col-sm-12  col-md-12">
@@ -61,7 +81,7 @@
         {usuario.name.last}
       </div>
       <div class="botones-ficha" transition:slide>
-        <button class="btn" on:click={modificaraqui(usuario._id)}>
+        <button class="btn" on:click={modificaraqui(usuario._id, false)}>
           <i class="fas fa-pen"/>editar</button>
         <button class="btn" on:click={eliminaraqui(usuario._id)}>
           <i class="fas fa-trash"/>borrar</button>
