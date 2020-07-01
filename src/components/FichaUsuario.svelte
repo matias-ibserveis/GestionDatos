@@ -35,12 +35,14 @@
   }
 
 function pulsadaTecla(event){
-    editname1 = document.getElementById("edit_divname").textContent;
-    //alert (editname1)
+    //editname1 = valor; //document.getElementById("edit_divname").textContent;
+    editname1 = event.target.textContent
     let key = event.key
     let keyCode = event.keyCode
     keyCode == 13 ? modificaraqui(usuario._id, editname1) : false
 }
+
+
 
 </script>
 
@@ -61,7 +63,7 @@ function pulsadaTecla(event){
   <!--  -->
   <div class="col-sm-8  col-md-9">
   <elemDestello bind:this={varDestello}>
-    <div id="edit_divname" contenteditable="true" on:keydown={pulsadaTecla}>
+    <div contenteditable="true" on:keydown={pulsadaTecla} >
       <h3>{usuario.name.first}</h3>
     </div>
      <h4>{usuario.name.last}</h4>

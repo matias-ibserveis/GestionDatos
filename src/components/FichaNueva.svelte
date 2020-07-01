@@ -11,19 +11,17 @@
   export let validacion = false;
   export let estaEditando;
   export let modificarUsuario;
-
+  export let confirma_edit;
   export let agregarUsuario;
   export let verformularionuevo;
-
   //context
   //const agregar = getContext('agregar')  
   //se ha optado por pasarlo por props ( agregarusuario solo 1 nivel)
-
   function previo() {
     validacion = comprueba.validar(namefirst, namelast, useremail, userpicture)
     if (validacion) {
         mensaje.innerHTML=" Datos validos     "
-        if (estaEditando){
+        if (estaEditando || confirma_edit){
           modificarUsuario({namefirst, namelast, useremail, userpicture}) 
         } else {
           agregarUsuario({namefirst, namelast, useremail, userpicture}) 
@@ -33,13 +31,25 @@
       txt_firstname.focus()
     }
   }
-
 </script>
 
 <div class="card fluid"  transition:slide>
   <form>
   <div class="row">
     <div class="col-sm-11  col-md-9">
+      {#if confirma_edit}
+         <!-- aqui va modal -->
+        <h2>¿Seguro quiere editar?</h2>
+        <div id="mensaje"></div>
+      <div class="botones-ficha">
+        <button class="btn" 
+          on:click|preventDefault={previo}>   
+          Confirmar
+        </button>
+        <button class="btn" on:click|preventDefault={() => verformularionuevo(false)}>Cancelar</button>
+      </div>
+      {/if}
+
       <div class="usuario-data">
         <label for="txt_firstname">Nombre</label>
         <input id="txt_firstname" type="text" bind:value={namefirst} />
@@ -59,6 +69,7 @@
         <input id="txt_email" 
           type="text" bind:value={useremail}/>
       </div>
+      {#if !confirma_edit}
       <div id="mensaje"></div>
       <div class="botones-ficha">
         <button class="btn" 
@@ -67,13 +78,14 @@
         </button>
         <button class="btn" on:click|preventDefault={() => verformularionuevo(false)}>Cancelar</button>
       </div>
+      {/if}
+
     </div>
     </div>
   </form>
 </div>
 
 <style>
-
   input {
     width: 90%;
     border: none;
@@ -92,15 +104,11 @@
     font-size: 1.2rem;
     outline-color:#5598D0;
   }
-
-
-
   .botones-ficha {
     display: flex;
     justify-content: flex-end;
     align-items: baseline;
   }
-
   .btn {
     letter-spacing: var(--mainSpacing);
     color: #5598D0;
@@ -113,12 +121,10 @@
     border-radius: var(--mainBorderRadius);
     background-color: transparent;
   }
-
   .btn:hover {
     background: #5598D0;
     color: var(--mainWhite);
   }
-
   /* Card component CSS variable definitions */
   :root {
     --card-back-color: #f0f0f0;
@@ -126,7 +132,6 @@
     --card-border-color: #ddd;
     --card-section-back-color: #d6d6d6;
   }
-
   .card {
     display: flex;
     flex-direction: column;
@@ -142,18 +147,15 @@
     padding: 1rem;
     overflow: hidden;
   }
-
   @media screen and (min-width: 320px) {
     .card {
       max-width: 320px;
     }
   }
-
   .card.fluid {
     max-width: 100%;
     /* width: auto; */
   }
-
   .usuario-data {
     /* width: 67%; */
     display: flex;
@@ -161,7 +163,6 @@
     justify-content: center;
     padding-left: 1rem;
   }
-
   .description {
     border-top: 1px solid #ccc;
     margin: 1rem;

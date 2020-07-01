@@ -40,7 +40,6 @@
   }
 
   function setModificarUsuario(id, editname1){
-    alert(editname1)
     editname1 ? confirma_edit = true:false
     let modifusuario = lista_usuarios.find(item => item._id === id )
   
@@ -48,7 +47,6 @@
     set_id= modifusuario._id
     backup_namefirst = modifusuario.name.first
     editname1 ? setnamefirst = editname1 : setnamefirst = modifusuario.name.first
-    alert(setnamefirst)
     setnamelast = modifusuario.name.last
     setuseremail = modifusuario.email
     setuserpicture = modifusuario.picture.medium
@@ -56,7 +54,7 @@
   }
 
   function modificarUsuario({namefirst, namelast, useremail, userpicture}){
-    alert("modificar")
+
     lista_usuarios = lista_usuarios.map(item=>{
       return item._id === set_id ? {...item,          // ... devuelve propiedades ,=sobrescribe
         name: { first: namefirst, last: namelast,},
@@ -158,7 +156,7 @@
     position: absolute;
     z-index: 1000;
     width: 80%;
-    height: 80%;
+    height: 90%;
     background-color: #053661dc;
     box-sizing: border-box;
     padding: 1rem; 
